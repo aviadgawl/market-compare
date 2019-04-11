@@ -9,7 +9,7 @@ export default class Searchform extends Component {
         super(props);
 
         this.state = {
-            selectedProducts: [],
+            selectedSearches: [],
             currentProductName: "Select Product",
             currentProductBrand: "Select Brand",
             currentProductMaxPrice: 0,
@@ -22,6 +22,8 @@ export default class Searchform extends Component {
         this.onStoreClick = this.onStoreClick.bind(this);
         this.onAllStoresClick = this.onAllStoresClick.bind(this);
         this.onClearStoresClick = this.onClearStoresClick.bind(this);
+        this.onAddSearch = this.onAddSearch.bind(this);
+        this.onRemoveSearch = this.onRemoveSearch.bind(this);
     }
 
     onProductNameChange(event) {
@@ -62,54 +64,54 @@ export default class Searchform extends Component {
         this.setState({ currentProductStores: ["Store Name"] });
     }
 
+    onAddSearch() {
+        let newSearchToAdd = {
+            productName: this.state.currentProductName,
+            productBrand: this.state.currentProductBrand,
+            productMaxPrice: this.state.currentProductMaxPrice,
+            productStores: this.state.currentProductStores
+        }
+
+        let newSelectedSearches = this.state.selectedSearches;
+        newSelectedSearches.push(newSearchToAdd);
+
+        this.setState({selectedSearches: newSelectedSearches});
+    }
+
+    onRemoveSearch(event) { 
+        let searchesToUpdate = this.state.selectedSearches;
+        searchesToUpdate.splice(event.target.id , 1);
+        this.setState({selectedSearches: searchesToUpdate});
+    }
+
     render() {
         return <div>
             <div className="row">
                 <div className="col-sm-12">
-                    <div className="card search-form-card">
-                        <div className="card-body">
-                            <div>
-                                <ul>
-                                    <li>{this.state.currentProductName}  </li>
-                                    <li>{this.state.currentProductBrand} </li>
-                                    <li>{this.state.currentProductMaxPrice} </li>
-                                    <li>
-                                        {this.state.currentProductStores.map((store) => {
-                                            return store + ' , ';
-                                        })}
-                                    </li>
-                                </ul>
-                            </div>
-                            <div>
-                                <button className="card-link btn btn-secondary">Edit</button>
-                                <button className="card-link btn btn-secondary">Remove</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="card search-form-card">
-                        <div className="card-body">
-                            <div>
-                                <ul>
-                                    <li>{this.state.currentProductName}  </li>
-                                    <li>{this.state.currentProductBrand} </li>
-                                    <li>{this.state.currentProductMaxPrice} </li>
-                                    <li>
-                                        <span>
-                                            {this.state.currentProductStores.map((store) => {
+                    {this.state.selectedSearches.map((searchItem , index) => {
+                        return <div key={index} className="card search-form-card">
+                            <div className="card-body">
+                                <div>
+                                    <ul>
+                                        <li>{searchItem.productName}  </li>
+                                        <li>{searchItem.productBrand} </li>
+                                        <li>{searchItem.productMaxPrice} </li>
+                                        <li>
+                                            {searchItem.productStores.map((store) => {
                                                 return store + ' , ';
                                             })}
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div>
-                                <button className="card-link btn btn-secondary">Edit</button>
-                                <button className="card-link btn btn-secondary">Remove</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <button onClick={this.onRemoveSearch} id={index} className="card-link btn btn-secondary">Remove</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    })}
                 </div>
             </div>
+            <hr />
             <div className="row">
                 <div className="col-sm-12">
                     <div className="input-group mb-3">
@@ -155,8 +157,8 @@ export default class Searchform extends Component {
                             <div className="dropdown-menu">
 
                                 {
-                                    this.storesList.map((store) => {
-                                        return <button onClick={this.onStoreClick} className="dropdown-item">{store}</button>
+                                    this.storesList.map((store , index) => {
+                                        return <button key={index} onClick={this.onStoreClick} className="dropdown-item">{store}</button>
                                     })
                                 }
 
@@ -174,7 +176,7 @@ export default class Searchform extends Component {
                     </div>
 
                     <div className="input-group mb-3">
-                        <button className="btn btn-secondary btn-lg">Add</button>
+                        <button onClick={this.onAddSearch} className="btn btn-secondary btn-lg">Add</button>
                     </div>
                 </div>
 

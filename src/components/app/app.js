@@ -7,7 +7,7 @@ import CompareTable from '../compare-table/compare-table';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { step: 1 };
+    this.state = { step: 3 };
     this.nextStep = this.nextStep.bind(this);
     this.goToHome = this.goToHome.bind(this);
   }

@@ -19,29 +19,47 @@ export default class CompareTable extends Component {
 						<thead>
 							<tr>
 								<th>#</th>
-								<th>First Name</th>
-								<th>Last Name</th>
-								<th>Username</th>
+								<th>Name</th>
+								<th>Price</th>
+								<th>Brand</th>
+								<th>Store</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td>1</td>
-								<td>Kilgore</td>
-								<td>Trout</td>
-								<td>kilgore</td>
+								<td>Tomato</td>
+								<td>12 nis</td>
+								<td>Osem</td>
+								<td>Ynot Bitan</td>
 							</tr>
 							<tr>
 								<td>2</td>
-								<td>Bob</td>
-								<td>Loblaw</td>
-								<td>boblahblah</td>
+								<td>Tomato</td>
+								<td>13 nis</td>
+								<td>Osem</td>
+								<td>Shufersal</td>
 							</tr>
 							<tr>
 								<td>3</td>
-								<td>Holden</td>
-								<td>Caulfield</td>
-								<td>penceyreject</td>
+								<td>Tomato</td>
+								<td>34 nis</td>
+								<td>Osem</td>
+								<td>Rami Levy</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td>Potato Chips</td>
+								<td>13 nis</td>
+								<td>Elit</td>
+								<td>Shufersal</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>Potato Chips</td>
+								<td>34 nis</td>
+								<td>Osem</td>
+								<td>Rami Levy</td>
 							</tr>
 						</tbody>
 					</table>
