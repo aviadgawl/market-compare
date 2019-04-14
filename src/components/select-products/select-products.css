@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .select-products-card {
     width: 10rem;
     display: inline-block;
@@ -7,4 +8,9 @@
 .select-products-card-img {
    width: 70%;
    min-width: 100px;
+=======
+.select-products-card{
+    width: 10rem;
+    display: inline-block;
+>>>>>>> 42a3000c8b068274d1f32111d021703fb5d018e4
 }

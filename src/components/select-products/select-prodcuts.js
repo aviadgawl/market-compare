@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './select-products.css';
 
 export default class SelectProducts extends Component {
+<<<<<<< HEAD
     productsList = [{name:"Tomato" , brand:"Osem" , price: 20} , {name:"Tomato" , brand:"Elit" , price:30}];
     constructor(props) {
         
@@ -32,6 +33,68 @@ export default class SelectProducts extends Component {
                     </div>
                 })}
             </div>
+=======
+    render() {
+        return <div>
+            <div>
+
+            </div>
+            <hr />
+            <div>
+
+                <div className="card select-products-card">
+                    <img src="https://images1-ynet-prod.azureedge.net/PicServer5/2018/12/27/8968761/896874859901009801060no.jpg" className="card-img-top" alt="..." />
+                    <div className="card-body">
+                        <h5 className="card-title">Tomato souce</h5>
+                        <button className="btn btn-secondary">Add</button>
+                    </div>
+                </div>
+                <div className="card select-products-card">
+                    <img src="https://images1-ynet-prod.azureedge.net/PicServer5/2018/12/27/8968761/896874859901009801060no.jpg" className="card-img-top" alt="..." />
+                    <div className="card-body">
+                        <h5 className="card-title">Tomato souce</h5>
+                        <button className="btn btn-secondary">Add</button>
+                    </div>
+                </div>
+                <div className="card select-products-card">
+                    <img src="https://images1-ynet-prod.azureedge.net/PicServer5/2018/12/27/8968761/896874859901009801060no.jpg" className="card-img-top" alt="..." />
+                    <div className="card-body">
+                        <h5 className="card-title">Tomato souce</h5>
+                        <button className="btn btn-secondary">Add</button>
+                    </div>
+                </div>
+                <div className="card select-products-card">
+                    <img src="https://images1-ynet-prod.azureedge.net/PicServer5/2018/12/27/8968761/896874859901009801060no.jpg" className="card-img-top" alt="..." />
+                    <div className="card-body">
+                        <h5 className="card-title">Tomato souce</h5>
+                        <button className="btn btn-secondary">Add</button>
+                    </div>
+                </div>
+                <div className="card select-products-card">
+                    <img src="https://images1-ynet-prod.azureedge.net/PicServer5/2018/12/27/8968761/896874859901009801060no.jpg" className="card-img-top" alt="..." />
+                    <div className="card-body">
+                        <h5 className="card-title">Tomato souce</h5>
+                        <button className="btn btn-secondary">Add</button>
+                    </div>
+                </div>
+                <div className="card select-products-card">
+                    <img src="https://images1-ynet-prod.azureedge.net/PicServer5/2018/12/27/8968761/896874859901009801060no.jpg" className="card-img-top" alt="..." />
+                    <div className="card-body">
+                        <h5 className="card-title">Tomato souce</h5>
+                        <button className="btn btn-secondary">Add</button>
+                    </div>
+                </div>
+                <div className="card select-products-card">
+                    <img src="https://images1-ynet-prod.azureedge.net/PicServer5/2018/12/27/8968761/896874859901009801060no.jpg" className="card-img-top" alt="..." />
+                    <div className="card-body">
+                        <h5 className="card-title">Tomato souce</h5>
+                        <button className="btn btn-secondary">Add</button>
+                    </div>
+                </div>
+
+            </div>
+
+>>>>>>> 42a3000c8b068274d1f32111d021703fb5d018e4
         </div>
     }
 }

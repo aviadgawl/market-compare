@@ -5,12 +5,18 @@ import SelectProducts from '../select-products/select-prodcuts';
 import CompareTable from '../compare-table/compare-table';
 
 class App extends Component {
+<<<<<<< HEAD
 
   productsList = [];
 
   constructor(props) {
     super(props);
     this.state = { step: 2 };
+=======
+  constructor(props) {
+    super(props);
+    this.state = { step: 3 };
+>>>>>>> 42a3000c8b068274d1f32111d021703fb5d018e4
     this.nextStep = this.nextStep.bind(this);
     this.goToHome = this.goToHome.bind(this);
   }
