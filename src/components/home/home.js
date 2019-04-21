@@ -3,6 +3,8 @@ import reactIcon from './assets/react-icon.png';
 import webpackIcon from './assets/webpack-icon.png';
 import bootstrapIcon from './assets/bootstrap-icon.png';
 import azureIcon from './assets/azure-icon.png';
+import githubIcon from './assets/github-icon.png';
+
 import './home.css';
 
 export default class Home extends Component {
@@ -19,6 +21,7 @@ export default class Home extends Component {
                         <li className="list-group-item"><a href="https://webpack.js.org/">Webpack</a> <img className="home-icon" src={webpackIcon} alt="Webpack icon" /></li>
                         <li className="list-group-item"><a href="https://getbootstrap.com/">Bootstrap</a> <img className="home-icon" src={bootstrapIcon} alt="Bootstrap icon" /> </li>
                         <li className="list-group-item"><a href="https://reactjs.org/">Azure</a> <img className="home-icon" src={azureIcon} alt="Bootstrap icon" /> </li>
+                        <li className="list-group-item"><a href="https://github.com/aviadgawl/market-compare">GitHub</a> <img className="home-icon" src={githubIcon} alt="Bootstrap icon" /> </li>
                     </ul>
                 </div>
             </div>
