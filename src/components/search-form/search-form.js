@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import ProductsApiService from './products-api-service';
+
 import './search-form.css';
 
 export default class Searchform extends Component {
     storesList = ['Yenot Bitan', 'Shufersal', 'Rami Levy'];
-
+    api = new ProductsApiService();
     constructor(props) {
-
         super(props);
 
         this.state = {
@@ -24,6 +25,9 @@ export default class Searchform extends Component {
         this.onClearStoresClick = this.onClearStoresClick.bind(this);
         this.onAddSearch = this.onAddSearch.bind(this);
         this.onRemoveSearch = this.onRemoveSearch.bind(this);
+
+        this.api.getProducts(["s" , "d"]);
+
     }
 
     onProductNameChange(event) {
