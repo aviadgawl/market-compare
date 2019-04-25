@@ -11,10 +11,11 @@ export default class Searchform extends Component {
 
         this.state = {
             selectedSearches: [],
-            currentProductName: "Select Product",
-            currentProductBrand: "Select Brand",
+            alerts: [],
+            currentProductName: "",
+            currentProductBrand: "",
             currentProductMaxPrice: 0,
-            currentProductStores: ["Store Name"]
+            currentProductStores: []
         };
 
         this.onProductNameChange = this.onProductNameChange.bind(this);
@@ -25,8 +26,8 @@ export default class Searchform extends Component {
         this.onClearStoresClick = this.onClearStoresClick.bind(this);
         this.onAddSearch = this.onAddSearch.bind(this);
         this.onRemoveSearch = this.onRemoveSearch.bind(this);
-
-        this.api.getProducts(["s" , "d"]);
+        this.isInputValid = this.isInputValid.bind(this);
+        //this.api.getProducts(["s" , "d"]);
 
     }
 
@@ -69,30 +70,71 @@ export default class Searchform extends Component {
     }
 
     onAddSearch() {
-        let newSearchToAdd = {
-            productName: this.state.currentProductName,
-            productBrand: this.state.currentProductBrand,
-            productMaxPrice: this.state.currentProductMaxPrice,
-            productStores: this.state.currentProductStores
+        if (this.isInputValid()) {
+
+            let newSearchToAdd = {
+                productName: this.state.currentProductName,
+                productBrand: this.state.currentProductBrand,
+                productMaxPrice: this.state.currentProductMaxPrice,
+                productStores: this.state.currentProductStores
+            }
+
+            let newSelectedSearches = this.state.selectedSearches;
+            newSelectedSearches.push(newSearchToAdd);
+
+            this.setState({ selectedSearches: newSelectedSearches });
         }
-
-        let newSelectedSearches = this.state.selectedSearches;
-        newSelectedSearches.push(newSearchToAdd);
-
-        this.setState({selectedSearches: newSelectedSearches});
     }
 
-    onRemoveSearch(event) { 
+    onRemoveSearch(event) {
         let searchesToUpdate = this.state.selectedSearches;
-        searchesToUpdate.splice(event.target.id , 1);
-        this.setState({selectedSearches: searchesToUpdate});
+        searchesToUpdate.splice(event.target.id, 1);
+        this.setState({ selectedSearches: searchesToUpdate });
+    }
+
+    isInputValid() {
+
+        this.setState({ alerts: [] });
+
+        let validationErrors = [];
+
+        if (this.state.currentProductName === "") {
+            validationErrors.push("Product name can not be empty.");
+        }
+
+        if (this.state.currentProductBrand === "") {
+            validationErrors.push("Brand name can not be empty.");
+        }
+
+        if (this.state.currentProductMaxPrice === 0) {
+            validationErrors.push("Price can not be 0.");
+        }
+
+        if (this.state.currentProductStores.length === 0) {
+            validationErrors.push("Stores can not be empty.");
+        }
+
+        this.setState({ alerts: validationErrors });
+
+        return validationErrors.length === 0;
     }
 
     render() {
         return <div>
             <div className="row">
                 <div className="col-sm-12">
-                    {this.state.selectedSearches.map((searchItem , index) => {
+
+                    {this.state.alerts.map((alert) => {
+                        return <div className="alert alert-danger" role="alert">
+                            {alert}
+                        </div>
+                    })}
+
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-sm-12">
+                    {this.state.selectedSearches.map((searchItem, index) => {
                         return <div key={index} className="card search-form-card">
                             <div className="card-body">
                                 <div>
@@ -142,7 +184,10 @@ export default class Searchform extends Component {
                                 <button onClick={this.onBrandClick} className="dropdown-item" >Elit</button>
                             </div>
                         </div>
-                        <span className="form-control">{this.state.currentProductBrand}</span>
+                        <span className="form-control">
+                        {this.state.currentProductBrand}
+                        {this.state.currentProductBrand === "" ? "Select Brand" : ""}
+                        </span>
                     </div>
 
                     <div className="input-group mb-3">
@@ -161,7 +206,7 @@ export default class Searchform extends Component {
                             <div className="dropdown-menu">
 
                                 {
-                                    this.storesList.map((store , index) => {
+                                    this.storesList.map((store, index) => {
                                         return <button key={index} onClick={this.onStoreClick} className="dropdown-item">{store}</button>
                                     })
                                 }
@@ -173,9 +218,12 @@ export default class Searchform extends Component {
                             </div>
                         </div>
                         <span className="form-control">
-                            {this.state.currentProductStores.map((store, index) => {
-                                return store + ' , ';
-                            })}
+                            {   
+                                this.state.currentProductStores.map((store, index) => {
+                                    return store + ' , ';
+                                })
+                            }
+                            {this.state.currentProductStores.length === 0 ? "Select Store" : ""}
                         </span>
                     </div>
 
