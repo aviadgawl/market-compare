@@ -4,14 +4,18 @@ import ProductsApiService from './products-api-service';
 import './search-form.css';
 
 export default class Searchform extends Component {
+
     storesList = ['Yenot Bitan', 'Shufersal', 'Rami Levy'];
+
     api = new ProductsApiService();
+
     constructor(props) {
         super(props);
 
         this.state = {
             selectedSearches: [],
             alerts: [],
+            loading: false,
             currentProductName: "",
             currentProductBrand: "",
             currentProductMaxPrice: 0,
@@ -73,6 +77,8 @@ export default class Searchform extends Component {
     onAddSearch() {
         if (this.isInputValid(true, true, true, true)) {
 
+            this.setState({ loading: true });
+
             this.api.getProducts([{
                 Name: this.state.currentProductName,
                 Brand: this.state.currentProductBrand,
@@ -129,7 +135,13 @@ export default class Searchform extends Component {
     }
 
     getProductsSuccessCallback(data) {
+        this.setState({ loading: false });
+
         if (data !== null || data !== undefined) {
+
+            if (data[0].length > 0) {
+                this.props.getProductsList(data[0]);
+            }
 
             let newSearchToAdd = {
                 productName: this.state.currentProductName,
@@ -147,8 +159,22 @@ export default class Searchform extends Component {
     }
 
     getProductsErrorCallback(data) {
+        this.setState({ loading: false });
+
         if (data !== null || data !== undefined) {
             //Do something!
+        }
+    }
+
+    renderLoadingRing() {
+        if (this.state.loading) {
+            return <div className="card search-form-card">
+                <div className="card-body">
+                    <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
         }
     }
 
@@ -170,23 +196,24 @@ export default class Searchform extends Component {
                     {this.state.selectedSearches.map((searchItem, index) => {
                         return <div key={index} className="card search-form-card">
                             <div className="card-body">
-                                    <ul className="list-group">
-                                        <li className="list-group-item"><strong>Name: </strong>{searchItem.productName}</li>
-                                        <li className="list-group-item"><strong>Price: </strong>{searchItem.productMaxPrice} </li>
-                                        <li className="list-group-item">
-                                            <strong>Stores: </strong>
-                                            {searchItem.productStores.map((store) => {
-                                                return store + ' , ';
-                                            })}
-                                        </li>
-                                        <li className="list-group-item"><strong>Count: </strong>{searchItem.productsCount} </li>
-                                    </ul>
+                                <ul className="list-group">
+                                    <li className="list-group-item"><strong>Name: </strong>{searchItem.productName}</li>
+                                    <li className="list-group-item"><strong>Price: </strong>{searchItem.productMaxPrice} </li>
+                                    <li className="list-group-item">
+                                        <strong>Stores: </strong>
+                                        {searchItem.productStores.map((store) => {
+                                            return store + ' , ';
+                                        })}
+                                    </li>
+                                    <li className="list-group-item"><strong>Count: </strong>{searchItem.productsCount} </li>
+                                </ul>
                                 <div>
                                     <button onClick={this.onRemoveSearch} id={index} className="card-link btn btn-secondary">Remove</button>
                                 </div>
                             </div>
                         </div>
                     })}
+                    {this.renderLoadingRing()}
                 </div>
             </div>
             <hr />
