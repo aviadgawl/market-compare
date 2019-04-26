@@ -10,7 +10,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { step: 0 };
+    this.state = { step: 1 };
     this.nextStep = this.nextStep.bind(this);
     this.goToHome = this.goToHome.bind(this);
   }

@@ -27,8 +27,9 @@ export default class Searchform extends Component {
         this.onAddSearch = this.onAddSearch.bind(this);
         this.onRemoveSearch = this.onRemoveSearch.bind(this);
         this.isInputValid = this.isInputValid.bind(this);
-        //this.api.getProducts(["s" , "d"]);
-
+        this.onLockProductName = this.onLockProductName.bind(this);
+        this.getProductsSuccessCallback = this.getProductsSuccessCallback.bind(this);
+        this.getProductsErrorCallback = this.getProductsErrorCallback.bind(this);
     }
 
     onProductNameChange(event) {
@@ -70,19 +71,14 @@ export default class Searchform extends Component {
     }
 
     onAddSearch() {
-        if (this.isInputValid()) {
+        if (this.isInputValid(true, true, true, true)) {
 
-            let newSearchToAdd = {
-                productName: this.state.currentProductName,
-                productBrand: this.state.currentProductBrand,
-                productMaxPrice: this.state.currentProductMaxPrice,
-                productStores: this.state.currentProductStores
-            }
-
-            let newSelectedSearches = this.state.selectedSearches;
-            newSelectedSearches.push(newSearchToAdd);
-
-            this.setState({ selectedSearches: newSelectedSearches });
+            this.api.getProducts([{
+                Name: this.state.currentProductName,
+                Brand: this.state.currentProductBrand,
+                Price: this.currentProductMaxPrice,
+                Stores: this.state.currentProductStores
+            }], this.getProductsSuccessCallback, this.getProductsErrorCallback);
         }
     }
 
@@ -92,31 +88,68 @@ export default class Searchform extends Component {
         this.setState({ selectedSearches: searchesToUpdate });
     }
 
-    isInputValid() {
-
-        this.setState({ alerts: [] });
+    isInputValid(nameValidation, brandValidtaion, priceValidation, storesValidation) {
 
         let validationErrors = [];
 
-        if (this.state.currentProductName === "") {
+        if (this.state.currentProductName === "" && nameValidation) {
             validationErrors.push("Product name can not be empty.");
         }
 
-        if (this.state.currentProductBrand === "") {
-            validationErrors.push("Brand name can not be empty.");
-        }
+        // if (this.state.currentProductBrand === "" && brandValidtaion) {
+        //     validationErrors.push("Brand name can not be empty.");
+        // }
 
-        if (this.state.currentProductMaxPrice === 0) {
+        if (this.state.currentProductMaxPrice === 0 && priceValidation) {
             validationErrors.push("Price can not be 0.");
         }
 
-        if (this.state.currentProductStores.length === 0) {
+        if (this.state.currentProductStores.length === 0 && storesValidation) {
             validationErrors.push("Stores can not be empty.");
         }
 
         this.setState({ alerts: validationErrors });
 
+        setTimeout(() => {
+            this.setState({ alerts: [] })
+        }, 2000);
+
         return validationErrors.length === 0;
+    }
+
+    onLockProductName() {
+        if (this.isInputValid(true, false, false, true)) {
+            // this.api.getProducts([{
+            //     Name: this.state.currentProductName,
+            //     Brand: "",
+            //     Price: "0",
+            //     Stores: [this.state.currentProductStores]
+            // }]);
+        }
+    }
+
+    getProductsSuccessCallback(data) {
+        if (data !== null || data !== undefined) {
+
+            let newSearchToAdd = {
+                productName: this.state.currentProductName,
+                productBrand: this.state.currentProductBrand,
+                productMaxPrice: this.state.currentProductMaxPrice,
+                productStores: this.state.currentProductStores,
+                productsCount: data.length > 0 ? data[0].length : 0
+            }
+
+            let newSelectedSearches = this.state.selectedSearches;
+            newSelectedSearches.push(newSearchToAdd);
+
+            this.setState({ selectedSearches: newSelectedSearches });
+        }
+    }
+
+    getProductsErrorCallback(data) {
+        if (data !== null || data !== undefined) {
+            //Do something!
+        }
     }
 
     render() {
@@ -124,8 +157,8 @@ export default class Searchform extends Component {
             <div className="row">
                 <div className="col-sm-12">
 
-                    {this.state.alerts.map((alert) => {
-                        return <div className="alert alert-danger" role="alert">
+                    {this.state.alerts.map((alert, index) => {
+                        return <div key={index} className="alert alert-danger" role="alert">
                             {alert}
                         </div>
                     })}
@@ -137,18 +170,17 @@ export default class Searchform extends Component {
                     {this.state.selectedSearches.map((searchItem, index) => {
                         return <div key={index} className="card search-form-card">
                             <div className="card-body">
-                                <div>
-                                    <ul>
-                                        <li>{searchItem.productName}  </li>
-                                        <li>{searchItem.productBrand} </li>
-                                        <li>{searchItem.productMaxPrice} </li>
-                                        <li>
+                                    <ul className="list-group">
+                                        <li className="list-group-item"><strong>Name: </strong>{searchItem.productName}</li>
+                                        <li className="list-group-item"><strong>Price: </strong>{searchItem.productMaxPrice} </li>
+                                        <li className="list-group-item">
+                                            <strong>Stores: </strong>
                                             {searchItem.productStores.map((store) => {
                                                 return store + ' , ';
                                             })}
                                         </li>
+                                        <li className="list-group-item"><strong>Count: </strong>{searchItem.productsCount} </li>
                                     </ul>
-                                </div>
                                 <div>
                                     <button onClick={this.onRemoveSearch} id={index} className="card-link btn btn-secondary">Remove</button>
                                 </div>
@@ -166,37 +198,9 @@ export default class Searchform extends Component {
                         </div>
                         <input type="text" onChange={this.onProductNameChange} className="form-control" placeholder="Product Name" />
                         <div className="input-group-append">
-                            <button className="btn btn-outline-secondary" type="button">Lock</button>
+                            <button onClick={this.onLockProductName} className="btn btn-outline-secondary" type="button">Lock</button>
                         </div>
                     </div>
-
-                    <div className="input-group mb-3">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">Product Brands</span>
-                            <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span className="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <div className="dropdown-menu">
-                                <button onClick={this.onBrandClick} className="dropdown-item">Yachin</button>
-                                <button onClick={this.onBrandClick} className="dropdown-item">Osem</button>
-                                <button onClick={this.onBrandClick} className="dropdown-item">Telma</button>
-                                <div role="separator" className="dropdown-divider"></div>
-                                <button onClick={this.onBrandClick} className="dropdown-item" >Elit</button>
-                            </div>
-                        </div>
-                        <span className="form-control">
-                        {this.state.currentProductBrand}
-                        {this.state.currentProductBrand === "" ? "Select Brand" : ""}
-                        </span>
-                    </div>
-
-                    <div className="input-group mb-3">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">Product Max Price</span>
-                        </div>
-                        <input type="number" onChange={this.onProductPriceChange} value={this.state.currentProductMaxPrice} className="form-control" placeholder="Product Max Price" />
-                    </div>
-
                     <div className="input-group mb-3">
                         <div className="input-group-prepend">
                             <span className="input-group-text">Product Stores</span>
@@ -218,13 +222,39 @@ export default class Searchform extends Component {
                             </div>
                         </div>
                         <span className="form-control">
-                            {   
+                            {
                                 this.state.currentProductStores.map((store, index) => {
                                     return store + ' , ';
                                 })
                             }
                             {this.state.currentProductStores.length === 0 ? "Select Store" : ""}
                         </span>
+                    </div>
+                    <div className="input-group mb-3">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">Product Brands</span>
+                            <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span className="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div className="dropdown-menu">
+                                <button onClick={this.onBrandClick} className="dropdown-item">Yachin</button>
+                                <button onClick={this.onBrandClick} className="dropdown-item">Osem</button>
+                                <button onClick={this.onBrandClick} className="dropdown-item">Telma</button>
+                                <div role="separator" className="dropdown-divider"></div>
+                                <button onClick={this.onBrandClick} className="dropdown-item" >Elit</button>
+                            </div>
+                        </div>
+                        <span className="form-control">
+                            {this.state.currentProductBrand}
+                            {this.state.currentProductBrand === "" ? "Select Brand" : ""}
+                        </span>
+                    </div>
+
+                    <div className="input-group mb-3">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">Product Max Price</span>
+                        </div>
+                        <input type="number" onChange={this.onProductPriceChange} value={this.state.currentProductMaxPrice} className="form-control" placeholder="Product Max Price" />
                     </div>
 
                     <div className="input-group mb-3">
