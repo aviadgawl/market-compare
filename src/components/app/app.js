@@ -29,9 +29,10 @@ class App extends Component {
     this.setState({ step: 0 });
   }
 
-  getProductList(products){
-    debugger
+  getProductList(productsList){
+    this.productsList = productsList;
   }
+
   render() {
     return (
       <div className="">

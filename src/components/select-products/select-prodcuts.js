@@ -5,39 +5,46 @@ export default class SelectProducts extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { selectedProducts: [], products: props.productsList };
+        this.state = { selectedProducts: [] };
         this.onSelectProduct = this.onSelectProduct.bind(this);
         this.onRemoveSelectedProduct = this.onRemoveSelectedProduct.bind(this);
     }
 
     onSelectProduct(event) {
-        let selectedProduct = this.state.products[event.target.id];
+        let productIndexes = event.target.id.split(",");
+        let selectedProduct = this.props.productsList[productIndexes[0]][productIndexes[1]];
         let updatedSelectedProducts = this.state.selectedProducts;
-        updatedSelectedProducts.push(selectedProduct);
-        this.setState({ selectedProducts: updatedSelectedProducts });
+        selectedProduct.id = event.target.id;
+        
+        if (updatedSelectedProducts.filter((product) => { return product.id === event.target.id }).length === 0) {
+            updatedSelectedProducts.push(selectedProduct);
+            this.setState({ selectedProducts: updatedSelectedProducts });
+        }
     }
 
-    onRemoveSelectedProduct(event){
+    onRemoveSelectedProduct(event) {
         let updatedSelectedProducts = this.state.selectedProducts;
-        updatedSelectedProducts.splice(event.target.id , 1);
-        this.setState({selectedProducts: updatedSelectedProducts});
+        let productToRemove = updatedSelectedProducts.filter((product) => { return product.id === event.target.id })[0];
+        let productToRemoveIndex = updatedSelectedProducts.findIndex((product) => product.id === productToRemove.id);
+        updatedSelectedProducts.splice(productToRemoveIndex, 1);
+        this.setState({ selectedProducts: updatedSelectedProducts });
     }
 
     render() {
         return <div>
             <div>
-                {this.state.selectedProducts.map((product , index) => {
-                    return <div key={index} className="card select-products-card">
+                {this.state.selectedProducts.map((product, index) => {
+                    return <div key={product.id} className="card select-products-card">
                         <div className="card-body">
                             <div>
-                                <ul>
-                                    <li> {product.name} </li>
-                                    <li> {product.brand} </li>
-                                    <li> {product.price} nis</li>
+                                <ul className="list-group">
+                                    <li className="list-group-item"><strong>Name: </strong> {product.Name} </li>
+                                    <li className="list-group-item"><strong>Brand: </strong> {product.Brand} </li>
+                                    <li className="list-group-item"><strong>Price: </strong> {product.Price} nis</li>
                                 </ul>
                             </div>
                             <div>
-                                <button id={index} onClick={this.onRemoveSelectedProduct} className="card-link btn btn-secondary">Remove</button>
+                                <button id={product.id} onClick={this.onRemoveSelectedProduct} className="card-link btn btn-secondary">Remove</button>
                             </div>
                         </div>
                     </div>
@@ -45,21 +52,24 @@ export default class SelectProducts extends Component {
             </div>
             <hr />
             <div>
-                {this.state.products.map((product, index) => {
-                    return <div key={index} className="card select-products-card">
-                        <img src="https://images1-ynet-prod.azureedge.net/PicServer5/2018/12/27/8968761/896874859901009801060no.jpg"
-                            className="card-img-top select-products-card-img" alt={product.name} />
-                        <div className="card-body">
-                            <div>
-                                <ul className="list-group list-group-flush">
-                                    <li className="list-group-item">{product.name}</li>
-                                    <li className="list-group-item">{product.brand}</li>
-                                    <li className="list-group-item">{product.price} nis</li>
-                                </ul>
+                {this.props.productsList.map((products, parentIndex) => {
+                    return products.map((product, index) => {
+                        return <div key={parentIndex + "," + index} className="card select-products-card">
+                            <img src={product.ImgUrl}
+                                className="card-img-top select-products-card-img" alt={product.Name} />
+                            <div className="card-body">
+                                <div>
+                                    <ul className="list-group list-group-flush">
+                                        <li className="list-group-item">{product.Name}</li>
+                                        <li className="list-group-item">{product.Brand}</li>
+                                        <li className="list-group-item">{product.Price} nis</li>
+                                    </ul>
+                                </div>
+                                <button id={parentIndex + "," + index} onClick={this.onSelectProduct} className="btn btn-secondary">Select</button>
                             </div>
-                            <button id={index} onClick={this.onSelectProduct} className="btn btn-secondary">Select</button>
                         </div>
-                    </div>
+                    })
+
                 })}
             </div>
         </div>

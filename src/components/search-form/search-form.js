@@ -139,22 +139,20 @@ export default class Searchform extends Component {
 
         if (data !== null || data !== undefined) {
 
-            if (data[0].length > 0) {
-                this.props.getProductsList(data[0]);
-            }
-
             let newSearchToAdd = {
                 productName: this.state.currentProductName,
                 productBrand: this.state.currentProductBrand,
                 productMaxPrice: this.state.currentProductMaxPrice,
                 productStores: this.state.currentProductStores,
-                productsCount: data.length > 0 ? data[0].length : 0
+                productsList: data.length > 0 ? data[0] : null,
             }
 
             let newSelectedSearches = this.state.selectedSearches;
             newSelectedSearches.push(newSearchToAdd);
 
             this.setState({ selectedSearches: newSelectedSearches });
+            
+            this.props.getProductsList(this.state.selectedSearches.map((search) => { return search.productsList}));
         }
     }
 
@@ -205,7 +203,7 @@ export default class Searchform extends Component {
                                             return store + ' , ';
                                         })}
                                     </li>
-                                    <li className="list-group-item"><strong>Count: </strong>{searchItem.productsCount} </li>
+                                    <li className="list-group-item"><strong>Count: </strong>{searchItem.productsList !== null?searchItem.productsList.length:"0"} </li>
                                 </ul>
                                 <div>
                                     <button onClick={this.onRemoveSearch} id={index} className="card-link btn btn-secondary">Remove</button>
