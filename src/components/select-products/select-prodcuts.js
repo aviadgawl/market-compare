@@ -12,13 +12,14 @@ export default class SelectProducts extends Component {
 
     onSelectProduct(event) {
         let productIndexes = event.target.id.split(",");
-        let selectedProduct = this.props.productsList[productIndexes[0]][productIndexes[1]];
+        let selectedProduct = this.props.productsList[productIndexes[0]][productIndexes[1]][productIndexes[2]];
         let updatedSelectedProducts = this.state.selectedProducts;
         selectedProduct.id = event.target.id;
-        
+
         if (updatedSelectedProducts.filter((product) => { return product.id === event.target.id }).length === 0) {
             updatedSelectedProducts.push(selectedProduct);
             this.setState({ selectedProducts: updatedSelectedProducts });
+            this.props.getSelectedProducts(updatedSelectedProducts);
         }
     }
 
@@ -41,6 +42,7 @@ export default class SelectProducts extends Component {
                                     <li className="list-group-item"><strong>Name: </strong> {product.Name} </li>
                                     <li className="list-group-item"><strong>Brand: </strong> {product.Brand} </li>
                                     <li className="list-group-item"><strong>Price: </strong> {product.Price} nis</li>
+                                    <li className="list-group-item">{product.Stores[0]}</li>
                                 </ul>
                             </div>
                             <div>
@@ -52,24 +54,26 @@ export default class SelectProducts extends Component {
             </div>
             <hr />
             <div>
-                {this.props.productsList.map((products, parentIndex) => {
-                    return products.map((product, index) => {
-                        return <div key={parentIndex + "," + index} className="card select-products-card">
-                            <img src={product.ImgUrl}
-                                className="card-img-top select-products-card-img" alt={product.Name} />
-                            <div className="card-body">
-                                <div>
-                                    <ul className="list-group list-group-flush">
-                                        <li className="list-group-item">{product.Name}</li>
-                                        <li className="list-group-item">{product.Brand}</li>
-                                        <li className="list-group-item">{product.Price} nis</li>
-                                    </ul>
+                {this.props.productsList.map((productsArray, indexOne) => {
+                    return productsArray.map((products, indexTwo) => {
+                        return products.map((product, indexThree) => {
+                            return <div key={indexOne + "," + indexTwo + "," + indexThree} className="card select-products-card">
+                                <img src={product.ImgUrl}
+                                    className="card-img-top select-products-card-img" alt={product.Name} />
+                                <div className="card-body">
+                                    <div>
+                                        <ul className="list-group list-group-flush">
+                                            <li className="list-group-item">{product.Name}</li>
+                                            <li className="list-group-item">{product.Brand}</li>
+                                            <li className="list-group-item">{product.Price} nis</li>
+                                            <li className="list-group-item">{product.Stores[0]}</li>
+                                        </ul>
+                                    </div>
+                                    <button id={indexOne + "," + indexTwo + "," + indexThree} onClick={this.onSelectProduct} className="btn btn-secondary">Select</button>
                                 </div>
-                                <button id={parentIndex + "," + index} onClick={this.onSelectProduct} className="btn btn-secondary">Select</button>
                             </div>
-                        </div>
+                        })
                     })
-
                 })}
             </div>
         </div>

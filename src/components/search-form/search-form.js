@@ -144,15 +144,16 @@ export default class Searchform extends Component {
                 productBrand: this.state.currentProductBrand,
                 productMaxPrice: this.state.currentProductMaxPrice,
                 productStores: this.state.currentProductStores,
-                productsList: data.length > 0 ? data[0] : null,
-            }
+                productsList: data,
+                productsCount: this.getProductCount(data)
+            };
 
             let newSelectedSearches = this.state.selectedSearches;
             newSelectedSearches.push(newSearchToAdd);
 
             this.setState({ selectedSearches: newSelectedSearches });
-            
-            this.props.getProductsList(this.state.selectedSearches.map((search) => { return search.productsList}));
+
+            this.props.getProductsList(this.state.selectedSearches.map((search) => { return search.productsList }));
         }
     }
 
@@ -163,6 +164,16 @@ export default class Searchform extends Component {
             //Do something!
         }
     }
+
+    getProductCount(productsList) {
+        let count = 0;
+        productsList.forEach((prodcuts) => {
+            count += prodcuts.length;
+        });
+        return count;
+    }
+
+
 
     renderLoadingRing() {
         if (this.state.loading) {
@@ -203,7 +214,7 @@ export default class Searchform extends Component {
                                             return store + ' , ';
                                         })}
                                     </li>
-                                    <li className="list-group-item"><strong>Count: </strong>{searchItem.productsList !== null?searchItem.productsList.length:"0"} </li>
+                                    <li className="list-group-item"><strong>Count: </strong>{searchItem.productsCount} </li>
                                 </ul>
                                 <div>
                                     <button onClick={this.onRemoveSearch} id={index} className="card-link btn btn-secondary">Remove</button>

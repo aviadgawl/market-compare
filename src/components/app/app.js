@@ -6,7 +6,8 @@ import CompareTable from '../compare-table/compare-table';
 
 class App extends Component {
 
-  productsList = [{ name: "Tomato", brand: "Osem", price: 20 }, { name: "Tomato", brand: "Elit", price: 30 }];
+  productsList = [];
+  selectedProducts = [];
 
   constructor(props) {
     super(props);
@@ -14,6 +15,7 @@ class App extends Component {
     this.nextStep = this.nextStep.bind(this);
     this.goToHome = this.goToHome.bind(this);
     this.getProductList = this.getProductList.bind(this);
+    this.getSelectedProducts = this.getSelectedProducts.bind(this);
   }
 
   nextStep() {
@@ -29,8 +31,13 @@ class App extends Component {
     this.setState({ step: 0 });
   }
 
-  getProductList(productsList){
+  getProductList(productsList) {
+    debugger
     this.productsList = productsList;
+  }
+
+  getSelectedProducts(prodcutsList) {
+    this.selectedProducts = prodcutsList;
   }
 
   render() {
@@ -50,8 +57,8 @@ class App extends Component {
 
               {this.state.step === 0 ? <Home></Home> : ''}
               {this.state.step === 1 ? <SearchForm getProductsList={this.getProductList}></SearchForm> : ''}
-              {this.state.step === 2 ? <SelectProducts productsList={this.productsList} ></SelectProducts> : ''}
-              {this.state.step === 3 ? <CompareTable></CompareTable> : ''}
+              {this.state.step === 2 ? <SelectProducts productsList={this.productsList} getSelectedProducts={this.getSelectedProducts} ></SelectProducts> : ''}
+              {this.state.step === 3 ? <CompareTable productsList={this.selectedProducts}></CompareTable> : ''}
 
             </div>
           </div>
