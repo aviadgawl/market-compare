@@ -54,8 +54,8 @@ export default class SelectProducts extends Component {
             </div>
             <hr />
             <div>
-                {this.props.productsList.map((productsArray, indexOne) => {
-                    return productsArray.map((products, indexTwo) => {
+                {this.props.productsList.map((productArray, indexOne) => {
+                    return productArray.map((products, indexTwo) => {
                         return products.map((product, indexThree) => {
                             return <div key={indexOne + "," + indexTwo + "," + indexThree} className="card select-products-card">
                                 <img src={product.ImgUrl}

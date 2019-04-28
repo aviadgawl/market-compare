@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
 
 export default class CompareTable extends Component {
+
+	constructor(props) {
+		super(props);
+
+		this.state = { searchWord: "" };
+		this.onSearchWordChange = this.onSearchWordChange.bind(this);
+	}
+
+	onSearchWordChange(event) {
+		this.setState({ searchWord: event.target.value })
+	}
+
 	render() {
 		return <div>
 			<div className="panel panel-primary">
@@ -13,7 +25,7 @@ export default class CompareTable extends Component {
 					</div>
 				</div>
 				<div className="panel-body">
-					<input type="text" className="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Products" />
+					<input type="text" onChange={this.onSearchWordChange} className="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Products" />
 				</div>
 				<table className="table table-hover" id="dev-table">
 					<thead>
@@ -26,16 +38,17 @@ export default class CompareTable extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						{this.props.productsList.map((product , index) => {
+						{this.props.productsList.map((product, index) => {
+							if (product.Name.indexOf(this.state.searchWord) !== -1) {
 								return <tr key={index}>
-								<td>{index + 1}</td>
-								<td>{product.Name}</td>
-								<td>{product.Brand}</td>
-								<td>{product.Price} nis</td>
-								<td>{product.Stores[0]}</td>
-							</tr>
+									<td>{index + 1}</td>
+									<td>{product.Name}</td>
+									<td>{product.Brand}</td>
+									<td>{product.Price} nis</td>
+									<td>{product.Stores[0]}</td>
+								</tr>
+							}
 						})}
-
 					</tbody>
 				</table>
 			</div>

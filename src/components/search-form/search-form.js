@@ -56,10 +56,6 @@ export default class Searchform extends Component {
 
         if (storesToUpdate.indexOf(event.target.textContent) === -1) {
 
-            if (storesToUpdate[0] === "Store Name") {
-                storesToUpdate = [];
-            }
-
             storesToUpdate.push(event.target.textContent);
 
             this.setState({ currentProductStores: storesToUpdate });
@@ -71,7 +67,7 @@ export default class Searchform extends Component {
     }
 
     onClearStoresClick() {
-        this.setState({ currentProductStores: ["Store Name"] });
+        this.setState({ currentProductStores: [""] });
     }
 
     onAddSearch() {
@@ -172,8 +168,6 @@ export default class Searchform extends Component {
         });
         return count;
     }
-
-
 
     renderLoadingRing() {
         if (this.state.loading) {

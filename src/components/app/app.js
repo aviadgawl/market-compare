@@ -4,7 +4,7 @@ import SearchForm from '../search-form/search-form';
 import SelectProducts from '../select-products/select-prodcuts';
 import CompareTable from '../compare-table/compare-table';
 
-class App extends Component {
+export default class App extends Component {
 
   productsList = [];
   selectedProducts = [];
@@ -32,7 +32,6 @@ class App extends Component {
   }
 
   getProductList(productsList) {
-    debugger
     this.productsList = productsList;
   }
 
@@ -76,5 +75,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;
