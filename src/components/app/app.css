@@ -1,0 +1,13 @@
+.app-alerts-div-start {
+    position: fixed;
+    z-index: 1;
+    margin-left: 40%;
+  }
+  
+  .app-alerts-div-end {
+    position: fixed;
+    z-index: 1;
+    margin-left: 40%;
+    opacity: 0;
+    transition: opacity 2.2s ease-in;
+  }

@@ -2,15 +2,3 @@
     display: inline-block;
     margin: 5px;
 }
-
-.search-form-alerts-div-start {
-  position: fixed;
-  z-index: 1;
-}
-
-.search-form-alerts-div-end {
-  position: fixed;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 2.2s ease-in;
-}

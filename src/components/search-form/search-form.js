@@ -14,8 +14,6 @@ export default class Searchform extends Component {
 
         this.state = {
             selectedSearches: [],
-            alerts: [],
-            alertsClass:"",
             loading: false,
             currentProductName: "",
             currentProductBrand: "",
@@ -35,7 +33,6 @@ export default class Searchform extends Component {
         this.onLockProductName = this.onLockProductName.bind(this);
         this.getProductsSuccessCallback = this.getProductsSuccessCallback.bind(this);
         this.getProductsErrorCallback = this.getProductsErrorCallback.bind(this);
-        this.showNotifications = this.showNotifications.bind(this);
     }
 
     onProductNameChange(event) {
@@ -84,7 +81,7 @@ export default class Searchform extends Component {
                 Stores: this.state.currentProductStores
             }], this.getProductsSuccessCallback, this.getProductsErrorCallback);
 
-            this.showNotifications(["Search was added successfuly."],false);
+            this.props.showNotifications(["Search was added successfuly."],false);
         }
     }
 
@@ -114,7 +111,7 @@ export default class Searchform extends Component {
             validationErrors.push("Stores can not be empty.");
         }
 
-        this.showNotifications(validationErrors , true);
+        this.props.showNotifications(validationErrors , true);
 
         return validationErrors.length === 0;
     }
@@ -169,20 +166,6 @@ export default class Searchform extends Component {
         return count;
     }
 
-    showNotifications(notifications , isErrorType){
-        let notificationClassName = isErrorType?"alert alert-danger":"alert alert-success";
-
-        let notificationsToAdd = notifications.map((notification) => {
-            return {message: notification , className: notificationClassName};
-        });
-
-        this.setState({alerts: notificationsToAdd , alertsClass: "search-form-alerts-div-end"});
-
-        setTimeout(() => {
-            this.setState({ alerts: [] , alertsClass: "search-form-alerts-div-start" })
-        }, 2000);
-    }
-
     renderLoadingRing() {
         if (this.state.loading) {
             return <div className="card search-form-card">
@@ -197,18 +180,7 @@ export default class Searchform extends Component {
 
     render() {
         return <div>
-            <div className="row">
-                <div className="col-sm-12">
-                    <div className={this.state.alertsClass} >
-                        {this.state.alerts.map((alert, index) => {
-                            return  <div key={index} className={alert.className} role="alert">
-                                    {alert.message}
-                                </div>
-                        })}
-                    </div>
-
-                </div>
-            </div>
+          
             <div className="row">
                 <div className="col-sm-12">
                     {this.state.selectedSearches.map((searchItem, index) => {

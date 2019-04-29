@@ -20,6 +20,7 @@ export default class SelectProducts extends Component {
             updatedSelectedProducts.push(selectedProduct);
             this.setState({ selectedProducts: updatedSelectedProducts });
             this.props.getSelectedProducts(updatedSelectedProducts);
+            this.props.showNotifications(["Product added."] , false);
         }
     }
 
