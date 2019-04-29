@@ -48,6 +48,7 @@ export default class CompareTable extends Component {
 									<td>{product.Stores[0]}</td>
 								</tr>
 							}
+							else { return ""; }
 						})}
 					</tbody>
 				</table>

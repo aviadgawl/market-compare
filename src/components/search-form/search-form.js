@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ProductsApiService from './products-api-service';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import './search-form.css';
 
@@ -16,6 +15,7 @@ export default class Searchform extends Component {
         this.state = {
             selectedSearches: [],
             alerts: [],
+            alertsClass:"",
             loading: false,
             currentProductName: "",
             currentProductBrand: "",
@@ -35,6 +35,7 @@ export default class Searchform extends Component {
         this.onLockProductName = this.onLockProductName.bind(this);
         this.getProductsSuccessCallback = this.getProductsSuccessCallback.bind(this);
         this.getProductsErrorCallback = this.getProductsErrorCallback.bind(this);
+        this.showNotifications = this.showNotifications.bind(this);
     }
 
     onProductNameChange(event) {
@@ -82,6 +83,8 @@ export default class Searchform extends Component {
                 Price: this.currentProductMaxPrice,
                 Stores: this.state.currentProductStores
             }], this.getProductsSuccessCallback, this.getProductsErrorCallback);
+
+            this.showNotifications(["Search was added successfuly."],false);
         }
     }
 
@@ -111,11 +114,7 @@ export default class Searchform extends Component {
             validationErrors.push("Stores can not be empty.");
         }
 
-        this.setState({ alerts: validationErrors });
-
-        setTimeout(() => {
-            this.setState({ alerts: [] })
-        }, 2000);
+        this.showNotifications(validationErrors , true);
 
         return validationErrors.length === 0;
     }
@@ -170,6 +169,20 @@ export default class Searchform extends Component {
         return count;
     }
 
+    showNotifications(notifications , isErrorType){
+        let notificationClassName = isErrorType?"alert alert-danger":"alert alert-success";
+
+        let notificationsToAdd = notifications.map((notification) => {
+            return {message: notification , className: notificationClassName};
+        });
+
+        this.setState({alerts: notificationsToAdd , alertsClass: "search-form-alerts-div-end"});
+
+        setTimeout(() => {
+            this.setState({ alerts: [] , alertsClass: "search-form-alerts-div-start" })
+        }, 2000);
+    }
+
     renderLoadingRing() {
         if (this.state.loading) {
             return <div className="card search-form-card">
@@ -186,16 +199,11 @@ export default class Searchform extends Component {
         return <div>
             <div className="row">
                 <div className="col-sm-12">
-                    <div className="search-form-div">
+                    <div className={this.state.alertsClass} >
                         {this.state.alerts.map((alert, index) => {
-                            return <ReactCSSTransitionGroup
-                                transitionName="example"
-                                transitionEnterTimeout={500}
-                                transitionLeaveTimeout={300}>
-                                <div key={index} className="alert alert-danger" role="alert">
-                                    {alert}
+                            return  <div key={index} className={alert.className} role="alert">
+                                    {alert.message}
                                 </div>
-                            </ReactCSSTransitionGroup>
                         })}
                     </div>
 
