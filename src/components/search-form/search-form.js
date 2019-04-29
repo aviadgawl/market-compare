@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ProductsApiService from './products-api-service';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import './search-form.css';
 
@@ -185,12 +186,18 @@ export default class Searchform extends Component {
         return <div>
             <div className="row">
                 <div className="col-sm-12">
-
-                    {this.state.alerts.map((alert, index) => {
-                        return <div key={index} className="alert alert-danger" role="alert">
-                            {alert}
-                        </div>
-                    })}
+                    <div className="search-form-div">
+                        {this.state.alerts.map((alert, index) => {
+                            return <ReactCSSTransitionGroup
+                                transitionName="example"
+                                transitionEnterTimeout={500}
+                                transitionLeaveTimeout={300}>
+                                <div key={index} className="alert alert-danger" role="alert">
+                                    {alert}
+                                </div>
+                            </ReactCSSTransitionGroup>
+                        })}
+                    </div>
 
                 </div>
             </div>
