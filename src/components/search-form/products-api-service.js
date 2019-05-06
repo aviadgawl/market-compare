@@ -1,7 +1,7 @@
 import Jquery from '../../../node_modules/jquery/dist/jquery';
 
 export default class ProductsApiService {
-    productApiServiceUrl =  "https://marketcomapreapi.azurewebsites.net/api/GetProducts?code=kPOEGGsokLoaff40eD82uYA2eRgZRGNWYU2DH75zvMcyoVCAga4aFQ==";
+    productApiServiceUrl = "https://marketcomapreapi.azurewebsites.net/api/GetProducts?code=kPOEGGsokLoaff40eD82uYA2eRgZRGNWYU2DH75zvMcyoVCAga4aFQ==";
 
     getProducts = function (productsToSearch , successCallback , errorCallback) {
 

@@ -40,6 +40,7 @@ export default class Searchform extends Component {
     }
 
     onProductPriceChange(event) {
+        
         if (event.target.value >= 0) {
             this.setState({ currentProductMaxPrice: event.target.value });
         }
@@ -73,11 +74,11 @@ export default class Searchform extends Component {
         if (this.isInputValid(true, true, true, true)) {
 
             this.setState({ loading: true });
-
+            
             this.api.getProducts([{
                 Name: this.state.currentProductName,
                 Brand: this.state.currentProductBrand,
-                Price: this.currentProductMaxPrice,
+                Price: this.state.currentProductMaxPrice,
                 Stores: this.state.currentProductStores
             }], this.getProductsSuccessCallback, this.getProductsErrorCallback);
 
