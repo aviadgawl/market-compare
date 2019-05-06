@@ -12,7 +12,7 @@ export default class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { step: 1, alerts: [], alertsClass: "" };
+    this.state = { step: 0, alerts: [], alertsClass: "" };
     this.nextStep = this.nextStep.bind(this);
     this.goToHome = this.goToHome.bind(this);
     this.getProductList = this.getProductList.bind(this);
@@ -21,8 +21,24 @@ export default class App extends Component {
   }
 
   nextStep() {
+    let nextStep = this.state.step + 1;
+    let selectProductsCondition = this.productsList.length !== 0;
+    let compareTableCondition = this.selectedProducts.length !== 0;
+
     if (this.state.step !== 3) {
-      this.setState({ step: this.state.step + 1 });
+
+      if (nextStep === 2 && selectProductsCondition) {
+          this.setState({ step: nextStep });
+      }
+      else if(nextStep === 3 && compareTableCondition){
+        this.setState({step:nextStep});
+      }
+      else if(nextStep === 1){
+        this.setState({step: nextStep});
+      }
+      else{
+        this.showNotifications(["Please finish with the current step."] , true);
+      }
     }
     else {
       this.goToHome();
@@ -30,6 +46,8 @@ export default class App extends Component {
   }
 
   goToHome() {
+    this.productsList = [];
+    this.selectedProducts = [];
     this.setState({ step: 0 });
   }
 
@@ -41,7 +59,6 @@ export default class App extends Component {
     this.selectedProducts = prodcutsList;
   }
 
-
   showNotifications(notifications, isErrorType) {
     let notificationClassName = isErrorType ? "alert alert-danger" : "alert alert-success";
 
@@ -51,9 +68,9 @@ export default class App extends Component {
 
     this.setState({ alerts: notificationsToAdd, alertsClass: "app-alerts-div-end" });
 
-     setTimeout(() => {
-       this.setState({ alerts: [], alertsClass: "app-alerts-div-start" })
-     }, 2000);
+    setTimeout(() => {
+      this.setState({ alerts: [], alertsClass: "app-alerts-div-start" })
+    }, 2000);
   }
 
   render() {
