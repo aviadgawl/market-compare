@@ -70,7 +70,11 @@ export default class SelectProducts extends Component {
                                             <li className="list-group-item">{product.Stores[0]}</li>
                                         </ul>
                                     </div>
-                                    <button id={indexOne + "," + indexTwo + "," + indexThree} onClick={this.onSelectProduct} className="btn btn-secondary">Select</button>
+                                    <button id={indexOne + "," + indexTwo + "," + indexThree} 
+                                            onClick={this.onSelectProduct} 
+                                            className={this.state.selectedProducts.filter((product) => { return product.id === (indexOne + "," + indexTwo + "," + indexThree) }).length === 0?"btn btn-secondary":"btn btn-success disabled"}>
+                                            Select
+                                    </button>
                                 </div>
                             </div>
                         })
