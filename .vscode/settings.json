@@ -1,0 +1,7 @@
+{
+    "appService.zipIgnorePattern": [
+        ".vscode{,/**}"
+    ],
+    "appService.deploySubpath": "deploy",
+    "appService.defaultWebAppToDeploy": "/subscriptions/cbb27724-a912-4551-96a1-c6d8be40881b/resourceGroups/MarketCompareClient/providers/Microsoft.Web/sites/market-compare"
+}
