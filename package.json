@@ -13,6 +13,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "copy": "xcopy D:\\Projects\\market-compare\\build  D:\\Projects\\market-compare\\deploy\\build /s /y",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
