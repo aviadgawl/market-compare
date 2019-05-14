@@ -9,5 +9,15 @@
     z-index: 1;
     margin-left: 40%;
     opacity: 0;
-    transition: opacity 2.2s ease-in;
+    transition: opacity 2.0s ease-in;
+  }
+
+  .app-steps-div-start{
+    opacity: 100;
+    transition: opacity 0.5s ease-in;
+  }
+
+  .app-steps-div-end{
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
   }

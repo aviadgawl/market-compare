@@ -13,14 +13,15 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = { step: 0, alerts: [], alertsClass: "" };
-    this.nextStep = this.nextStep.bind(this);
+    this.onNextStep = this.onNextStep.bind(this);
     this.goToHome = this.goToHome.bind(this);
     this.getProductList = this.getProductList.bind(this);
     this.getSelectedProducts = this.getSelectedProducts.bind(this);
     this.showNotifications = this.showNotifications.bind(this);
+    this.goToNextStep = this.goToNextStep.bind(this);
   }
 
-  nextStep() {
+  onNextStep() {
     let nextStep = this.state.step + 1;
     let selectProductsCondition = this.productsList.length !== 0;
     let compareTableCondition = this.selectedProducts.length !== 0;
@@ -28,21 +29,29 @@ export default class App extends Component {
     if (this.state.step !== 3) {
 
       if (nextStep === 2 && selectProductsCondition) {
-          this.setState({ step: nextStep });
+        this.goToNextStep(nextStep)
       }
-      else if(nextStep === 3 && compareTableCondition){
-        this.setState({step:nextStep});
+      else if (nextStep === 3 && compareTableCondition) {
+        this.goToNextStep(nextStep)
       }
-      else if(nextStep === 1){
-        this.setState({step: nextStep});
+      else if (nextStep === 1) {
+        this.goToNextStep(nextStep)
       }
-      else{
-        this.showNotifications(["Please finish with the current step."] , true);
+      else {
+        this.showNotifications(["Please finish with the current step."], true);
       }
     }
     else {
       this.goToHome();
     }
+  }
+
+  goToNextStep(step) {
+    this.setState({ stepsClass: "app-steps-div-end" });
+
+    setTimeout(() => {
+      this.setState({ stepsClass: "app-steps-div-start", step: step })
+    }, 500);
   }
 
   goToHome() {
@@ -66,7 +75,7 @@ export default class App extends Component {
       return { message: notification, className: notificationClassName };
     });
 
-    this.setState({ alerts: notificationsToAdd, alertsClass: "app-alerts-div-end" });
+    this.setState({ alerts: notificationsToAdd, alertsClass: "app-alerts-div-end", stepsClass: "app-steps-div-start" });
 
     setTimeout(() => {
       this.setState({ alerts: [], alertsClass: "app-alerts-div-start" })
@@ -97,12 +106,12 @@ export default class App extends Component {
         <div className="row">
           <div className="col-sm-12">
             <div className="container">
-
-              {this.state.step === 0 ? <Home></Home> : ''}
-              {this.state.step === 1 ? <SearchForm showNotifications={this.showNotifications} getProductsList={this.getProductList}></SearchForm> : ''}
-              {this.state.step === 2 ? <SelectProducts showNotifications={this.showNotifications} productsList={this.productsList} getSelectedProducts={this.getSelectedProducts} ></SelectProducts> : ''}
-              {this.state.step === 3 ? <CompareTable productsList={this.selectedProducts}></CompareTable> : ''}
-
+              <div className={this.state.stepsClass}>
+                {this.state.step === 0 ? <Home></Home> : ''}
+                {this.state.step === 1 ? <SearchForm showNotifications={this.showNotifications} getProductsList={this.getProductList}></SearchForm> : ''}
+                {this.state.step === 2 ? <SelectProducts showNotifications={this.showNotifications} productsList={this.productsList} getSelectedProducts={this.getSelectedProducts} ></SelectProducts> : ''}
+                {this.state.step === 3 ? <CompareTable productsList={this.selectedProducts}></CompareTable> : ''}
+              </div>
             </div>
           </div>
         </div>
@@ -110,7 +119,7 @@ export default class App extends Component {
         <div className="row">
           <div className="col-sm-12">
             <div className="container">
-              <button onClick={this.nextStep} className="btn btn-dark btn-lg btn-block">Next</button>
+              {this.state.step !== 3 ? <button onClick={this.onNextStep} className="btn btn-dark btn-lg btn-block">Next</button> : ''}
             </div>
           </div>
         </div>
