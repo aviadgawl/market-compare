@@ -1,15 +1,16 @@
 import Jquery from '../../../node_modules/jquery/dist/jquery';
+import ProductsApiServiceCredentials from './products-api-service-credentials';
 
 export default class ProductsApiService {
-    productApiServiceUrl = "https://marketcomapreapi.azurewebsites.net/api/GetProducts?code=kPOEGGsokLoaff40eD82uYA2eRgZRGNWYU2DH75zvMcyoVCAga4aFQ==";
-
     getProducts = function (productsToSearch , successCallback , errorCallback) {
-
+        
+        let apiServiceCredentials = new ProductsApiServiceCredentials();
+        
         if (productsToSearch.length) {
             Jquery.ajax(
                 {
                     type:"POST",
-                    url: this.productApiServiceUrl,
+                    url: apiServiceCredentials.url,
                     contentType: "application/json; charset=utf-8",
                     crossDomain: true,
                     headers: {'Access-Control-Allow-Origin': '*'},
