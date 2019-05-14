@@ -87,8 +87,12 @@ export default class App extends Component {
       <div>
         <div className="row">
           <div className="col-sm-12">
-            <nav className="navbar navbar-dark bg-dark">
-              <span onClick={this.goToHome} className="navbar-brand" href="">Market Compare</span>
+            <nav className="navbar fixed-top navbar-dark bg-dark">
+              <div className="container-fluid">
+                <div className="navbar-header">
+                  <span onClick={this.goToHome} className="navbar-brand" href="">Market Compare</span>
+                </div>
+              </div>
             </nav>
           </div>
         </div>
@@ -103,7 +107,7 @@ export default class App extends Component {
             </div>
           </div>
         </div>
-        <div className="row">
+        <div className="row app-margin-top">
           <div className="col-sm-12">
             <div className="container">
               <div className={this.state.stepsClass}>
@@ -118,9 +122,13 @@ export default class App extends Component {
 
         <div className="row">
           <div className="col-sm-12">
-            <div className="container">
-              {this.state.step !== 3 ? <button onClick={this.onNextStep} className="btn btn-dark btn-lg btn-block">Next</button> : ''}
-            </div>
+            <nav className="navbar fixed-bottom navbar-dark bg-dark">
+              <div className="container-fluid">
+                <div className="text-center">
+                {this.state.step !== 3 ? <button onClick={this.onNextStep} className="btn btn-light btn-lg">Next</button> : ''}
+                </div>
+              </div>
+            </nav>
           </div>
         </div>
 
