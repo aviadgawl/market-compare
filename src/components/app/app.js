@@ -120,13 +120,11 @@ export default class App extends Component {
           </div>
         </div>
 
-        <div className="row">
+        <div className="row app-margin-top">
           <div className="col-sm-12">
             <nav className="navbar fixed-bottom navbar-dark bg-dark">
               <div className="container-fluid">
-                <div className="text-center">
-                {this.state.step !== 3 ? <button onClick={this.onNextStep} className="btn btn-light btn-lg">Next</button> : ''}
-                </div>
+                {this.state.step !== 3 ? <button onClick={this.onNextStep} className="btn btn-light btn-lg app-margin-auto">Next</button> : ''}
               </div>
             </nav>
           </div>
