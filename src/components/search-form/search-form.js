@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ProductsApiService from './products-api-service';
+import ProductsApiService from './products-api-service-mock';
 
 import './search-form.css';
 

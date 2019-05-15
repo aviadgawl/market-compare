@@ -29,3 +29,19 @@
   .app-margin-auto{
     margin: auto;
   }
+
+  .app-progress-bar-0 {
+    width: 0%;
+  }
+
+  .app-progress-bar-1 {
+    width: 33%;
+  }
+
+  .app-progress-bar-2 {
+    width: 66%;
+  }
+
+  .app-progress-bar-3 {
+    width: 100%;
+  }

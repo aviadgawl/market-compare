@@ -107,14 +107,25 @@ export default class App extends Component {
             </div>
           </div>
         </div>
-        <div className="row app-margin-top">
-          <div className="col-sm-12">
+        <div className="app-margin-top">
+           <div className="row">
+            <div className="col-sm-12">
             <div className="container">
-              <div className={this.state.stepsClass}>
-                {this.state.step === 0 ? <Home></Home> : ''}
-                {this.state.step === 1 ? <SearchForm showNotifications={this.showNotifications} getProductsList={this.getProductList}></SearchForm> : ''}
-                {this.state.step === 2 ? <SelectProducts showNotifications={this.showNotifications} productsList={this.productsList} getSelectedProducts={this.getSelectedProducts} ></SelectProducts> : ''}
-                {this.state.step === 3 ? <CompareTable productsList={this.selectedProducts}></CompareTable> : ''}
+              <div className="progress">
+                <div className={"progress-bar app-progress-bar-" + this.state.step} role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              </div>
+            </div>
+          </div> 
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="container">
+                <div className={this.state.stepsClass}>
+                  {this.state.step === 0 ? <Home></Home> : ''}
+                  {this.state.step === 1 ? <SearchForm showNotifications={this.showNotifications} getProductsList={this.getProductList}></SearchForm> : ''}
+                  {this.state.step === 2 ? <SelectProducts showNotifications={this.showNotifications} productsList={this.productsList} getSelectedProducts={this.getSelectedProducts} ></SelectProducts> : ''}
+                  {this.state.step === 3 ? <CompareTable productsList={this.selectedProducts}></CompareTable> : ''}
+                </div>
               </div>
             </div>
           </div>
