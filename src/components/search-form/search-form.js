@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ProductsApiService from './products-api-service';
+import ProductsApiService from './products-api-service-mock';
 
 import './search-form.css';
 
@@ -67,10 +67,11 @@ export default class Searchform extends Component {
     }
 
     onClearStoresClick() {
-        this.setState({ currentProductStores: [""] });
+        this.setState({ currentProductStores: [] });
     }
 
     onAddSearch() {
+
         if (this.isInputValid(true, true, true, true)) {
 
             this.setState({ loading: true });
@@ -82,7 +83,7 @@ export default class Searchform extends Component {
                 Stores: this.state.currentProductStores
             }], this.getProductsSuccessCallback, this.getProductsErrorCallback);
 
-            this.props.showNotifications(["Search was added successfuly."],false);
+            this.props.showNotifications(["Search was added successfuly."], false);
         }
     }
 
@@ -90,6 +91,7 @@ export default class Searchform extends Component {
         let searchesToUpdate = this.state.selectedSearches;
         searchesToUpdate.splice(event.target.id, 1);
         this.setState({ selectedSearches: searchesToUpdate });
+        this.props.getProductsList(this.state.selectedSearches.map((search) => { return search.productsList }));
     }
 
     isInputValid(nameValidation, brandValidtaion, priceValidation, storesValidation) {
@@ -100,10 +102,6 @@ export default class Searchform extends Component {
             validationErrors.push("Product name can not be empty.");
         }
 
-        // if (this.state.currentProductBrand === "" && brandValidtaion) {
-        //     validationErrors.push("Brand name can not be empty.");
-        // }
-
         if (this.state.currentProductMaxPrice === 0 && priceValidation) {
             validationErrors.push("Price can not be 0.");
         }
@@ -112,7 +110,7 @@ export default class Searchform extends Component {
             validationErrors.push("Stores can not be empty.");
         }
 
-        this.props.showNotifications(validationErrors , true);
+        this.props.showNotifications(validationErrors, true);
 
         return validationErrors.length === 0;
     }
@@ -129,7 +127,11 @@ export default class Searchform extends Component {
     }
 
     getProductsSuccessCallback(data) {
-        this.setState({ loading: false });
+        this.setState({
+            loading: false, currentProductName: "",
+            currentProductMaxPrice: 0,
+            currentProductStores: []
+        });
 
         if (data !== null || data !== undefined) {
 
@@ -146,7 +148,7 @@ export default class Searchform extends Component {
             newSelectedSearches.push(newSearchToAdd);
 
             this.setState({ selectedSearches: newSelectedSearches });
-
+            debugger
             this.props.getProductsList(this.state.selectedSearches.map((search) => { return search.productsList }));
         }
     }
@@ -155,7 +157,7 @@ export default class Searchform extends Component {
         this.setState({ loading: false });
 
         if (data !== null || data !== undefined) {
-            //Do something!
+            this.props.showNotifications(["There was an error from the products api."], true);
         }
     }
 
@@ -248,26 +250,6 @@ export default class Searchform extends Component {
                             {this.state.currentProductStores.length === 0 ? "Select Store" : ""}
                         </span>
                     </div>
-                    <div className="input-group mb-3">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">Product Brands</span>
-                            <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span className="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <div className="dropdown-menu">
-                                <button onClick={this.onBrandClick} className="dropdown-item">Yachin</button>
-                                <button onClick={this.onBrandClick} className="dropdown-item">Osem</button>
-                                <button onClick={this.onBrandClick} className="dropdown-item">Telma</button>
-                                <div role="separator" className="dropdown-divider"></div>
-                                <button onClick={this.onBrandClick} className="dropdown-item" >Elit</button>
-                            </div>
-                        </div>
-                        <span className="form-control">
-                            {this.state.currentProductBrand}
-                            {this.state.currentProductBrand === "" ? "Select Brand" : ""}
-                        </span>
-                    </div>
-
                     <div className="input-group mb-3">
                         <div className="input-group-prepend">
                             <span className="input-group-text">Product Max Price</span>
