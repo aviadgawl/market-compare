@@ -4,5 +4,6 @@
         "node_modules{,/**}"
     ],
     "appService.deploySubpath": "deploy",
-    "appService.showBuildDuringDeployPrompt": false
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/cbb27724-a912-4551-96a1-c6d8be40881b/resourceGroups/MarketCompareGroup/providers/Microsoft.Web/sites/market-compare"
 }
