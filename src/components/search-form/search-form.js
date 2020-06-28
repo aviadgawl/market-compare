@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ProductsApiService from './products-api-service-mock';
+import ProductsApiService from './products-api-service';
 
 import './search-form.css';
 
@@ -40,7 +40,7 @@ export default class Searchform extends Component {
     }
 
     onProductPriceChange(event) {
-        
+
         if (event.target.value >= 0) {
             this.setState({ currentProductMaxPrice: event.target.value });
         }
@@ -74,7 +74,7 @@ export default class Searchform extends Component {
         if (this.isInputValid(true, true, true, true)) {
 
             this.setState({ loading: true });
-            
+
             this.api.getProducts([{
                 Name: this.state.currentProductName,
                 Brand: this.state.currentProductBrand,
@@ -181,7 +181,7 @@ export default class Searchform extends Component {
 
     render() {
         return <div>
-          
+
             <div className="row">
                 <div className="col-sm-12">
                     {this.state.selectedSearches.map((searchItem, index) => {
