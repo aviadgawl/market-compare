@@ -148,7 +148,7 @@ export default class Searchform extends Component {
             newSelectedSearches.push(newSearchToAdd);
 
             this.setState({ selectedSearches: newSelectedSearches });
-            debugger
+
             this.props.getProductsList(this.state.selectedSearches.map((search) => { return search.productsList }));
         }
     }
@@ -183,85 +183,83 @@ export default class Searchform extends Component {
 
     render() {
         return <div>
-
             <div className="row">
-                <div className="col-sm-12">
-                    {this.state.selectedSearches.map((searchItem, index) => {
-                        return <div key={index} className="card search-form-card">
-                            <div className="card-body">
-                                <ul className="list-group">
-                                    <li className="list-group-item"><strong>Name: </strong>{searchItem.productName}</li>
-                                    <li className="list-group-item"><strong>Price: </strong>{searchItem.productMaxPrice} </li>
-                                    <li className="list-group-item">
-                                        <strong>Stores: </strong>
-                                        {searchItem.productStores.map((store) => {
-                                            return store + ' , ';
-                                        })}
-                                    </li>
-                                    <li className="list-group-item"><strong>Count: </strong>{searchItem.productsCount} </li>
-                                </ul>
-                                <div>
-                                    <button onClick={this.onRemoveSearch} id={index} className="card-link btn btn-secondary">Remove</button>
-                                </div>
+                {this.state.selectedSearches.map((searchItem, index) => {
+                    return <div key={index} className="card search-form-card">
+                        <div className="card-body">
+                            <ul className="list-group">
+                                <li className="list-group-item"><strong>Name: </strong>{searchItem.productName}</li>
+                                <li className="list-group-item"><strong>Price: </strong>{searchItem.productMaxPrice} </li>
+                                <li className="list-group-item">
+                                    <strong>Stores: </strong>
+                                    {searchItem.productStores.map((store) => {
+                                        return store + ' , ';
+                                    })}
+                                </li>
+                                <li className="list-group-item"><strong>Count: </strong>{searchItem.productsCount} </li>
+                            </ul>
+                            <div>
+                                <button onClick={this.onRemoveSearch} id={index} className="card-link btn btn-secondary">Remove</button>
                             </div>
                         </div>
-                    })}
-                    {this.renderLoadingRing()}
-                </div>
+                    </div>
+                })}
+                {this.renderLoadingRing()}
             </div>
             <hr />
             <div className="row">
-                <div className="col-sm-12">
-                    <div className="input-group mb-3">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">Product Name</span>
-                        </div>
-                        <input type="text" onChange={this.onProductNameChange} className="form-control" placeholder="Product Name" />
-                        <div className="input-group-append">
-                            <button onClick={this.onLockProductName} className="btn btn-outline-secondary" type="button">Lock</button>
-                        </div>
+                <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                        <span className="input-group-text">Product Name</span>
                     </div>
-                    <div className="input-group mb-3">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">Product Stores</span>
-                            <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span className="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <div className="dropdown-menu">
-
-                                {
-                                    this.storesList.map((store, index) => {
-                                        return <button key={index} onClick={this.onStoreClick} className="dropdown-item">{store}</button>
-                                    })
-                                }
-
-                                <div role="separator" className="dropdown-divider"></div>
-                                <button onClick={this.onAllStoresClick} className="dropdown-item" >All</button>
-                                <div role="separator" className="dropdown-divider"></div>
-                                <button onClick={this.onClearStoresClick} className="dropdown-item" >Clear</button>
-                            </div>
-                        </div>
-                        <span className="form-control">
-                            {
-                                this.state.currentProductStores.map((store, index) => {
-                                    return store + ' , ';
-                                })
-                            }
-                            {this.state.currentProductStores.length === 0 ? "Select Store" : ""}
-                        </span>
-                    </div>
-                    <div className="input-group mb-3">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">Product Max Price</span>
-                        </div>
-                        <input type="number" onChange={this.onProductPriceChange} value={this.state.currentProductMaxPrice} className="form-control" placeholder="Product Max Price" />
-                    </div>
-
-                    <div className="input-group mb-3">
-                        <button onClick={this.onAddSearch} className="btn btn-secondary btn-lg">Add</button>
+                    <input type="text" onChange={this.onProductNameChange} className="form-control" placeholder="Product Name" />
+                    <div className="input-group-append">
+                        <button onClick={this.onLockProductName} className="btn btn-outline-secondary" type="button">Lock</button>
                     </div>
                 </div>
+            </div>
+            <div className="row">
+                <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                        <span className="input-group-text">Product Stores</span>
+                        <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span className="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div className="dropdown-menu">
 
+                            {
+                                this.storesList.map((store, index) => {
+                                    return <button key={index} onClick={this.onStoreClick} className="dropdown-item">{store}</button>
+                                })
+                            }
+
+                            <div role="separator" className="dropdown-divider"></div>
+                            <button onClick={this.onAllStoresClick} className="dropdown-item" >All</button>
+                            <div role="separator" className="dropdown-divider"></div>
+                            <button onClick={this.onClearStoresClick} className="dropdown-item" >Clear</button>
+                        </div>
+                    </div>
+                    <div className="form-control">
+                        {
+                            this.state.currentProductStores.map((store, index) => {
+                                return store + ' , ';
+                            })
+                        }
+                        {this.state.currentProductStores.length === 0 ? "Select Store" : ""}
+                    </div>
+                </div>
+            </div>
+            <div className="row">
+                <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                        <span className="input-group-text">Product Max Price</span>
+                    </div>
+                    <input type="number" onChange={this.onProductPriceChange} value={this.state.currentProductMaxPrice} className="form-control" placeholder="Product Max Price" />
+                </div>
+
+                <div className="input-group mb-3">
+                    <button onClick={this.onAddSearch} className="btn btn-secondary btn-lg">Add</button>
+                </div>
             </div>
         </div>
     }
