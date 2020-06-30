@@ -239,7 +239,7 @@ export default class Searchform extends Component {
                             <button onClick={this.onClearStoresClick} className="dropdown-item" >Clear</button>
                         </div>
                     </div>
-                    <div className="form-control">
+                    <div className="form-control search-form-store-select">
                         {
                             this.state.currentProductStores.map((store, index) => {
                                 return store + ' , ';

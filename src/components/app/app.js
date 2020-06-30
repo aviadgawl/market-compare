@@ -84,7 +84,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <div className="row">
           <div className="col-sm-12">
             <nav className="navbar fixed-top navbar-dark bg-dark">
@@ -108,15 +108,7 @@ export default class App extends Component {
           </div>
         </div>
         <div className="app-margin-top">
-           <div className="row">
-            <div className="col-sm-12">
-            <div className="container">
-              <div className="progress">
-                <div className={"progress-bar app-progress-bar-" + this.state.step} role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              </div>
-            </div>
-          </div>
+
           <div className="row">
             <div className="col-sm-12">
               <div className="container">
@@ -130,17 +122,20 @@ export default class App extends Component {
             </div>
           </div>
         </div>
-
-        <div className="row app-margin-top">
-          <div className="col-sm-12">
-            <nav className="navbar fixed-bottom navbar-dark bg-dark">
+        <div className="row">
+          <div className="col-sm-12 fixed-bottom ">
+            {
+              this.state.step !== 0 ? <div className="progress">
+                <div className={"progress-bar app-progress-bar-" + this.state.step} role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              </div> : ''
+            }
+            <nav className="navbar navbar-dark bg-dark">
               <div className="container-fluid">
-                {this.state.step !== 3 ? <button onClick={this.onNextStep} className="btn btn-light btn-lg app-margin-auto">Next</button> : ''}
+                <button onClick={this.onNextStep} className="btn btn-light btn-lg app-margin-auto">{this.state.step === 3 ? 'Restart' : 'Next'}</button>
               </div>
             </nav>
           </div>
         </div>
-
       </div>
     );
   }
