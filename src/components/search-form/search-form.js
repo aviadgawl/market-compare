@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ProductsApiService from './products-api-service-mock';
+import ProductsApiService from './products-api-service';
 
 import './search-form.css';
 
@@ -127,11 +127,7 @@ export default class Searchform extends Component {
     }
 
     getProductsSuccessCallback(data) {
-        this.setState({
-            loading: false, currentProductName: "",
-            currentProductMaxPrice: 0,
-            currentProductStores: []
-        });
+        this.setState({loading:false});
 
         if (data !== null || data !== undefined) {
 
@@ -150,6 +146,12 @@ export default class Searchform extends Component {
             this.setState({ selectedSearches: newSelectedSearches });
 
             this.props.getProductsList(this.state.selectedSearches.map((search) => { return search.productsList }));
+
+            this.setState({
+                currentProductName: "",
+                currentProductMaxPrice: 0,
+                currentProductStores: []
+            });
         }
     }
 
@@ -212,7 +214,7 @@ export default class Searchform extends Component {
                     <div className="input-group-prepend">
                         <span className="input-group-text">Product Name</span>
                     </div>
-                    <input type="text" onChange={this.onProductNameChange} className="form-control" placeholder="Product Name" />
+                    <input type="text" onChange={this.onProductNameChange} value={this.state.currentProductName} className="form-control" placeholder="Product Name" />
                     <div className="input-group-append">
                         <button onClick={this.onLockProductName} className="btn btn-outline-secondary" type="button">Lock</button>
                     </div>
