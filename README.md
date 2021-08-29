@@ -18,4 +18,4 @@ Create and bundle the app for prodaction.
 
 ### Deployment
 
-The deployemnt i used was azure.
+The deployment i used was azure.
